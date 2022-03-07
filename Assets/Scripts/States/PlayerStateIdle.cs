@@ -5,12 +5,12 @@ namespace FSM
     public class PlayerStateIdle : State
     {
         private StateMachine<PlayerStates> _stateMachine;
-        private Rigidbody2D _rigidbody;
+        private PlayerController _playerController;
 
-        public PlayerStateIdle(StateMachine<PlayerStates> stateMachine, Rigidbody2D rigidbody)
+        public PlayerStateIdle(StateMachine<PlayerStates> stateMachine, PlayerController playerController)
         {
             _stateMachine = stateMachine;
-            _rigidbody = rigidbody;
+            _playerController = playerController;
         }
         
         public override void OnBegin()
@@ -18,11 +18,19 @@ namespace FSM
             Debug.Log("Sono nello stato Idle");
         }
 
-        public override void OnUpdate()
+        public override void OnFixedUpdate()
         {
-            if (_rigidbody.velocity.y < 0f)
+            if (_playerController.IsFalling)
             {
                 _stateMachine.SetState(PlayerStates.Fall);
+            }
+        }
+
+        public override void OnUpdate()
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                _stateMachine.SetState(PlayerStates.Jump);
                 return;
             }
             

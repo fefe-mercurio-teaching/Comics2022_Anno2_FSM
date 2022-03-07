@@ -34,5 +34,6 @@ namespace FSM
         }
 
         public void OnUpdate() => _currentState?.OnUpdate();
+        public void OnFixedUpdate() => _currentState?.OnFixedUpdate();
     }
 }
